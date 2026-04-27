@@ -1,0 +1,26 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "xv6: build with Docker",
+      "type": "shell",
+      "command": "docker run --rm -v \"${workspaceFolder}/xv6\":/xv6 -w /xv6 ubuntu:22.04 bash -lc 'apt-get update >/tmp/apt.log && DEBIAN_FRONTEND=noninteractive apt-get install -y make gcc gcc-i686-linux-gnu binutils-i686-linux-gnu >/tmp/apt-install.log && make TOOLPREFIX=i686-linux-gnu- && make TOOLPREFIX=i686-linux-gnu- fs.img'",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "xv6: run testsymlink with Docker/QEMU",
+      "type": "shell",
+      "command": "docker run --rm -v \"${workspaceFolder}/xv6\":/xv6 -w /xv6 ubuntu:22.04 bash -lc 'apt-get update >/tmp/apt.log && DEBIAN_FRONTEND=noninteractive apt-get install -y make gcc gcc-i686-linux-gnu binutils-i686-linux-gnu qemu-system-x86 >/tmp/apt-install.log && make TOOLPREFIX=i686-linux-gnu- && make TOOLPREFIX=i686-linux-gnu- fs.img && (sleep 5; echo testsymlink; sleep 4; printf \"\\001x\") | make TOOLPREFIX=i686-linux-gnu- QEMU=qemu-system-i386 qemu-nox'",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "xv6: clean with Docker",
+      "type": "shell",
+      "command": "docker run --rm -v \"${workspaceFolder}/xv6\":/xv6 -w /xv6 ubuntu:22.04 bash -lc 'apt-get update >/tmp/apt.log && DEBIAN_FRONTEND=noninteractive apt-get install -y make gcc-i686-linux-gnu binutils-i686-linux-gnu >/tmp/apt-install.log && make TOOLPREFIX=i686-linux-gnu- clean'",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}
